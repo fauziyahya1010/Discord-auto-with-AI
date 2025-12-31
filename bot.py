@@ -33,8 +33,8 @@ print(r'''
 # === Konfigurasi ===
 DISCORD_USER_TOKEN = "TOKEN_DISCORD" #ganti dengan TOKEN discord
 CHANNEL_ID = 12345  # Ganti dengan ID channel yang kamu targetkan
-INTERVAL_MIN = 5 #random time minimal
-INTERVAL_MAX = 9 #random time maksimal
+INTERVAL_MIN = 4 #random time minimal
+INTERVAL_MAX = 5 #random time maksimal
 OLLAMA_URL = "http://localhost:11434"
 OLLAMA_MODEL = "gemma:2b"
 
@@ -142,7 +142,7 @@ async def reply_loop():
         print(f"[❌] Gagal kirim: {e}")
 
 # === Restart otomatis setiap 2 jam ===
-@tasks.loop(hours=2)
+@tasks.loop(hours=24)
 async def auto_restart():
     print(f"[♻️] Restart otomatis dimulai pada {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     python = sys.executable
@@ -152,7 +152,7 @@ async def auto_restart():
 async def before_auto_restart():
     await client.wait_until_ready()
     print(f"[⏳] Script akan auto restart 2 jam sekali")
-    await asyncio.sleep(2 * 60 * 60)  # 3 jam delay sebelum loop pertama
+    await asyncio.sleep(24 * 60 * 60)  # 3 jam delay sebelum loop pertama
 
 # === Jalankan bot ===
 client.run(DISCORD_USER_TOKEN)
